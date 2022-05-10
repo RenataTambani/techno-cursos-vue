@@ -1,29 +1,45 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import PaginaHome from "../views/PaginaHome.vue";
+import PaginaContato from "../views/PaginaContato.vue";
+import PaginaCursos from "../views/PaginaCursos.vue";
+import PaginaCurso from "../views/PaginaCurso.vue";
+import PaginaAula from "../views/PaginaAula.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
-
-const router = new VueRouter({
-  mode: 'history',
+export default new VueRouter({
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
-
-export default router
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: PaginaHome,
+    },
+    {
+      path: "/contato",
+      name: "contato",
+      component: PaginaContato,
+    },
+    {
+      path: "/cursos",
+      name: "cursos",
+      component: PaginaCursos,
+    },
+    {
+      path: "/cursos/:curso",
+      name: "curso",
+      component: PaginaCurso,
+      props: true,
+      children: [
+        {
+          path: "/cursos/:curso/:aula",
+          name: "aula",
+          component: PaginaAula,
+          props: true,
+        },
+      ],
+    },
+  ],
+});
